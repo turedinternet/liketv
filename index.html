@@ -7,37 +7,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./LikeTVLogo.ico">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: 'Roboto', sans-serif;
             background-color: #0d0d0d;
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
-            height: 100vh;
+            background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             color: white;
             text-align: center;
+            padding: 40px 0;
         }
 
         .container {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             padding: 50px;
             border-radius: 20px;
             border: 1px solid #d4af37;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             max-width: 400px;
             width: 90%;
+            margin-bottom: 50px;
         }
 
         .logo {
             font-size: 4rem;
             font-weight: bold;
             margin-bottom: 10px;
-            /* Efecto Dorado similar al logo */
             background: linear-gradient(to bottom, #f9e195 0%, #d4af37 40%, #b8860b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -76,10 +82,133 @@
             background: linear-gradient(145deg, #f9e195, #d4af37);
         }
 
-        .footer-note {
+        .how-to-link {
+            display: block;
             margin-top: 20px;
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* SECCIÓN DE TUTORIALES */
+        .tutorials-container {
+            max-width: 1000px;
+            width: 95%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h2 {
+            color: #d4af37;
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .step-list li {
+            margin-bottom: 12px;
+            color: #ddd;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: #d4af37;
+            color: #000;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.75rem;
+            margin-right: 12px;
+            margin-top: 3px;
+        }
+
+        .btn-video {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-video:hover {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .video-wrapper {
+            display: none; /* Oculto por defecto */
+            margin-top: 15px;
+            position: relative;
+            padding-bottom: 56.25%; /* Relación 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .video-wrapper iframe, .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .code-display {
+            background: #222;
+            border: 1px dashed #d4af37;
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .footer-note {
+            margin-top: 40px;
             font-size: 0.8rem;
             color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .tutorials-container { grid-template-columns: 1fr; }
+            .container { padding: 30px; }
         }
     </style>
 </head>
@@ -87,16 +216,60 @@
 
     <div class="container">
         <div class="logo">Like<span>TV</span></div>
-        
         <p>Tu entretenimiento favorito en un solo lugar. Disfruta de todos los canales, las mejores películas y series.</p>
-        
         <a href="./LikeTV.apk" class="btn-download">DESCARGAR AHORA</a>
-
-        <div class="footer-note">
-            Disponible para AndroidTV, GoogleTV, TvBox y Android
-        </div>
+        <a href="#tutoriales" class="how-to-link">¿Cómo instalar? Tutoriales</a>
     </div>
 
-</body>
+    <div class="tutorials-container" id="tutoriales">
+        
+        <div class="card">
+            <h2>🌐 Vía Navegador</h2>
+            <ul class="step-list">
+                <li><span class="step-number">1</span> Descarga el archivo APK arriba.</li>
+                <li><span class="step-number">2</span> Abre el archivo.</li>
+                <li><span class="step-number">3</span> Haz clic en "Instalar" y abre la App.</li>
+                <li><span class="step-number">4</span>  Ingresa tus datos (Nombre, Usuario y Contraseña) y empieza a disfrutar de la TV.</li>
+            </ul>
+            <button class="btn-video" onclick="toggleVideo('videoNav')">🎥 VER VIDEO TUTORIAL</button>
+            <div id="videoNav" class="video-wrapper">
+                <iframe src="./tutonavegador.mp4" allowfullscreen></iframe>
+            </div>
+        </div>
 
+        <div class="card">
+            <h2>📥 Vía Downloader</h2>
+            <ul class="step-list">
+                <li><span class="step-number">1</span> Instala <b>Downloader</b> desde la tienda de aplicaciones (Play Store, Amazon Store).</li>
+                <li><span class="step-number">2</span> Ingresa este código en la app:</li>
+            </ul>
+            <div class="code-display">5368286</div>
+            <ul class="step-list">
+                <li><span class="step-number">3</span> Espera la descarga e instala.</li>
+                <li><span class="step-number">4</span>  Ingresa tus datos (Nombre, Usuario y Contraseña) y empieza a disfrutar de la TV.</li>
+            </ul>
+            <button class="btn-video" onclick="toggleVideo('videoDown')">🎥 VER VIDEO TUTORIAL</button>
+            <div id="videoDown" class="video-wrapper">
+                <iframe src="./tutodownloader.mp4" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-note">
+        Disponible para AndroidTV, GoogleTV, TvBox y Smartphones Android
+    </div>
+
+    <script>
+        function toggleVideo(id) {
+            const videoDiv = document.getElementById(id);
+            if (videoDiv.style.display === "block") {
+                videoDiv.style.display = "none";
+            } else {
+                videoDiv.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
 </html>
