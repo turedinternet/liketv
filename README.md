@@ -1,4 +1,4 @@
-# 📺 LikeTV - Landing Page de Descarga
+# 📺 LikeTV
 
 ![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-WebApp-green.svg)
