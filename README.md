@@ -31,6 +31,8 @@ Para disfrutar de todo el contenido de LikeTV en tu dispositivo, sigue estos pas
 * `index.html`: La puerta de entrada. Una interfaz limpia y directa para el usuario.
 * `LikeTV.apk`: El instalador oficial de la aplicación para Android.
 * `LikeTVLogo.ico`: Identidad visual del proyecto.
+* `tutonavegador.mp4`: Tutorial para Instalar la App 1.
+* `tutodownloader.mp4`: Tutorial para Instalar la App 2.
 
 ---
 
