@@ -60,5 +60,5 @@ Este proyecto está bajo la Licencia MIT. Siéntete libre de usarlo y mejorarlo.
 ---
 
 <p align="center">
-Desarrollado con ❤️ por <a href="https://www.google.com/search?q=https://github.com/turedinternet">TuredInternet</a>
+Desarrollado con ❤️ por <a href="https://github.com/armandogg24">Armando Gonzalez</a>
 </p>
