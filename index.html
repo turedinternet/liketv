@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,24 @@
     <link rel="icon" type="image/x-icon" href="./LikeTVLogo.ico">
     <style>
         :root {
+            /* Variables globales para fácil mantemiento */
             --gold-main: #d4af37;
             --gold-gradient: linear-gradient(to bottom, #f9e195 0%, #d4af37 40%, #b8860b 100%);
+            --bg-color: #0d0d0d;
+            --text-color: #eee;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Roboto', sans-serif;
-            background-color: #0d0d0d;
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                              url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -42,7 +48,7 @@
             width: 100%;
             max-width: 500px;
             margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             box-sizing: border-box;
         }
 
@@ -51,12 +57,16 @@
             font-weight: bold;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
+            margin: 0 0 15px 0;
             letter-spacing: -2px;
         }
 
-        .logo span { font-size: 0.4em; vertical-align: super; }
+        .logo span {
+            font-size: 0.4em;
+            vertical-align: super;
+        }
 
         .btn-download {
             display: inline-block;
@@ -75,14 +85,34 @@
             font-size: 1rem;
         }
 
-        .btn-download:hover { 
-            transform: scale(1.03); 
+        .btn-download:hover,
+        .btn-download:focus-visible {
+            transform: scale(1.03);
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+            outline: none;
+        }
+
+        .link-tutorials {
+            color: var(--gold-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 15px;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .link-tutorials:hover {
+            color: #fff;
+        }
+
+        .tutorials-section {
+            width: 100%;
+            max-width: 1100px;
         }
 
         .tutorials-grid {
-            width: 100%;
-            max-width: 1100px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
             gap: 20px;
@@ -99,12 +129,19 @@
             box-sizing: border-box;
         }
 
-        .card h2 { color: var(--gold-main); margin-top: 0; font-size: 1.3rem; margin-bottom: 20px; }
+        .card h2 {
+            color: var(--gold-main);
+            margin-top: 0;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
 
         .step-list {
             list-style: none;
+            /* Quitamos los números por defecto del navegador */
             padding: 0;
             margin: 0;
+            counter-reset: custom-counter;
         }
 
         .step-item {
@@ -112,9 +149,11 @@
             align-items: flex-start;
             margin-bottom: 18px;
             width: 100%;
+            counter-increment: custom-counter;
         }
 
-        .step-number {
+        .step-item::before {
+            content: counter(custom-counter);
             background: var(--gold-main);
             color: black;
             min-width: 24px;
@@ -132,14 +171,14 @@
 
         .step-content {
             flex: 1;
-            color: #eee;
+            color: var(--text-color);
             line-height: 1.4;
             font-size: 0.95rem;
             word-wrap: break-word;
         }
 
-        /* ESTILO DEL BOTÓN DE COPIAR */
-        .copy-container {
+        /* Botón contenedor para copiar (Ahora accesible) */
+        .btn-copy-container {
             position: relative;
             background: #222;
             border: 1px dashed var(--gold-main);
@@ -150,9 +189,15 @@
             justify-content: center;
             cursor: pointer;
             transition: background 0.3s;
+            width: 100%;
+            padding: 0;
         }
 
-        .copy-container:hover { background: #2a2a2a; }
+        .btn-copy-container:hover,
+        .btn-copy-container:focus-visible {
+            background: #2a2a2a;
+            outline: 2px solid var(--gold-main);
+        }
 
         .code-box {
             padding: 12px;
@@ -161,6 +206,8 @@
             font-size: 1.5rem;
             color: white;
             letter-spacing: 3px;
+            pointer-events: none;
+            /* El click se maneja en el botón */
         }
 
         .copy-icon {
@@ -170,7 +217,6 @@
             height: 20px;
         }
 
-        /* Tooltip de confirmación */
         .copy-tooltip {
             position: absolute;
             top: -30px;
@@ -180,11 +226,17 @@
             border-radius: 5px;
             font-size: 0.7rem;
             font-weight: bold;
-            display: none;
-            animation: fadeIn 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(5px);
+            transition: all 0.3s ease;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .copy-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
         .btn-video {
             background: transparent;
@@ -199,7 +251,12 @@
             transition: 0.3s;
         }
 
-        .btn-video:hover { background: var(--gold-main); color: black; }
+        .btn-video:hover,
+        .btn-video:focus-visible {
+            background: var(--gold-main);
+            color: black;
+            outline: none;
+        }
 
         .video-container {
             display: none;
@@ -209,106 +266,217 @@
             overflow: hidden;
         }
 
-        video { width: 100%; display: block; border-radius: 8px; }
+        .video-container.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
 
-        @media (max-width: 360px) {
-            .logo { font-size: 2.2rem; }
-            .btn-download { font-size: 0.9rem; padding: 15px 10px; }
-            .card h2 { font-size: 1.1rem; }
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            background-color: #000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .btn-download {
+                font-size: 0.9rem;
+                padding: 15px 10px;
+            }
+
+            .card h2 {
+                font-size: 1.1rem;
+            }
+
+            .code-box {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Footer */
+        .site-footer {
+            width: 100%;
+            padding: 30px 20px;
+            margin-top: 40px;
+            background: rgba(10, 10, 10, 0.9);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            color: #aaa;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        .site-footer a {
+            color: var(--gold-main);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .site-footer a:hover,
+        .site-footer a:focus-visible {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            outline: none;
         }
     </style>
 </head>
+
 <body>
 
-    <div class="hero-container">
-        <div class="logo">Like<span>TV</span></div>
+    <header class="hero-container">
+        <!-- Uso de h1 en lugar de div para SEO/Accesibilidad -->
+        <h1 class="logo">Like<span>TV</span></h1>
         <p>Tu entretenimiento favorito en un solo lugar.<br>
-        Disfruta de todos los canales, las mejores películas y series.</p>
-        <a href="./LikeTV.apk" class="btn-download">DESCARGAR AHORA</a>
-        <p><a href="#tutoriales" style="color: var(--gold-main); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; font-weight: bold; margin-top: 15px; display: inline-block;">¿CÓMO INSTALAR? TUTORIALES</a></p>
-    </div>
+            Disfruta de todos los canales, las mejores películas y series.</p>
 
-    <div class="tutorials-grid" id="tutoriales">
-        
-        <div class="card">
-            <h2>🌐 Vía Navegador</h2>
-            <div class="step-list">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-content">Pulsa el botón <b>"Descargar Ahora"</b> de arriba.</div>
+        <!-- Agregado el atributo download -->
+        <a href="./LikeTV.apk" class="btn-download" download>DESCARGAR AHORA</a>
+
+        <p><a href="#tutoriales" class="link-tutorials">¿CÓMO INSTALAR? TUTORIALES</a></p>
+    </header>
+
+    <section id="tutoriales" class="tutorials-section">
+        <div class="tutorials-grid">
+
+            <article class="card">
+                <h2>🌐 Vía Navegador</h2>
+                <!-- Uso de lista ordenada (ol) para una secuencia de pasos -->
+                <ol class="step-list">
+                    <li class="step-item">
+                        <span class="step-content">Pulsa el botón <b>"Descargar Ahora"</b> de arriba.</span>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-content">Abre el archivo.</span>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-content">Haz clic en "Instalar" y abre la App.</span>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-content">Ingresa tus datos (Nombre, Usuario y Contraseña) y empieza a
+                            disfrutar de LikeTV.</span>
+                    </li>
+                </ol>
+                <button class="btn-video" data-target="v1">🎥 VER VIDEO TUTORIAL</button>
+                <!-- Atributo preload para ahorrar datos -->
+                <div id="v1" class="video-container">
+                    <video src="./tutonavegador.mp4" controls preload="metadata"></video>
                 </div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-content">Abre el archivo.</div>
+            </article>
+
+            <article class="card">
+                <h2>📥 Vía Downloader</h2>
+                <ol class="step-list">
+                    <li class="step-item">
+                        <span class="step-content">Instala la App <b>Downloader</b> desde la tienda (Play Store, Amazon
+                            Store).</span>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-content">Haz clic abajo para copiar el código e ingrésalo en la App:</span>
+                    </li>
+
+                    <!-- Botón semántico y accesible -->
+                    <button class="btn-copy-container" id="copyBtn" aria-label="Copiar código downloader">
+                        <span id="tooltip" class="copy-tooltip" aria-hidden="true">¡COPIADO!</span>
+                        <span class="code-box" id="downloaderCode">5368286</span>
+                        <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+                        </svg>
+                    </button>
+
+                    <li class="step-item">
+                        <span class="step-content">Espera que se descargue la App e Instalala.</span>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-content">Ingresa tus datos (Nombre, Usuario y Contraseña) y empieza a
+                            disfrutar de LikeTV.</span>
+                    </li>
+                </ol>
+                <button class="btn-video" data-target="v2">🎥 VER VIDEO TUTORIAL</button>
+                <div id="v2" class="video-container">
+                    <video src="./tutodownloader.mp4" controls preload="metadata"></video>
                 </div>
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-content">Haz clic en "Instalar" y abre la App.</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div class="step-content">Ingresa tus datos (Nombre, Usuario y Contraseña) y empieza a disfrutar de LikeTV.</div>
-                </div>
-            </div>
-            <button class="btn-video" onclick="toggleV('v1')">🎥 VER VIDEO TUTORIAL</button>
-            <div id="v1" class="video-container">
-                <video src="./tutonavegador.mp4" controls></video>
-            </div>
+            </article>
+
         </div>
+    </section>
+    <footer class="site-footer">
+        <p>Developed with 💛 by <a href="https://github.com/armandogg24" target="_blank"
+                rel="noopener noreferrer">Armando Gonzalez</a></p>
+    </footer>
 
-        <div class="card">
-            <h2>📥 Vía Downloader</h2>
-            <div class="step-list">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-content">Instala la App <b>Downloader</b> desde la tienda (Play Store, Amazon Store).</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-content">Haz clic abajo para copiar el código e ingrésalo en la App:</div>
-                </div>
-                
-                <div class="copy-container" onclick="copyCode()">
-                    <div id="tooltip" class="copy-tooltip">¡COPIADO!</div>
-                    <div class="code-box" id="downloaderCode">5368286</div>
-                    <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </div>
-
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-content">Espera que se descargue la App e Instalala.</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div class="step-content">Ingresa tus datos (Nombre, Usuario y Contraseña) y empieza a disfrutar de LikeTV.</div>
-                </div>
-            </div>
-            <button class="btn-video" onclick="toggleV('v2')">🎥 VER VIDEO TUTORIAL</button>
-            <div id="v2" class="video-container">
-                <video src="./tutodownloader.mp4" controls></video>
-            </div>
-        </div>
-
-    </div>
-
+    <!-- Script separado al final para manejar lógica moderna -->
     <script>
-        function toggleV(id) {
-            const v = document.getElementById(id);
-            v.style.display = (v.style.display === 'block') ? 'none' : 'block';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
 
-        function copyCode() {
-            const code = document.getElementById('downloaderCode').innerText;
-            const tooltip = document.getElementById('tooltip');
-            
-            navigator.clipboard.writeText(code).then(() => {
-                tooltip.style.display = 'block';
-                setTimeout(() => {
-                    tooltip.style.display = 'none';
-                }, 1500);
+            // Lógica para botones de Video
+            const videoButtons = document.querySelectorAll('.btn-video');
+            videoButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    const videoContainer = document.getElementById(targetId);
+
+                    // Alternar clase activa para animación
+                    videoContainer.classList.toggle('active');
+                });
             });
-        }
+
+            // Lógica para el botón de copiado
+            const copyBtn = document.getElementById('copyBtn');
+            const codeEl = document.getElementById('downloaderCode');
+            const tooltip = document.getElementById('tooltip');
+            let tooltipTimeout;
+
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async () => {
+                    const code = codeEl.innerText;
+
+                    try {
+                        // Uso de Clipboard API moderno
+                        await navigator.clipboard.writeText(code);
+
+                        // Mostrar tooltip (Mejorado con clases)
+                        tooltip.classList.add('show');
+
+                        // Limpiar timeouts anteriores por si clickean muy rápido
+                        clearTimeout(tooltipTimeout);
+
+                        tooltipTimeout = setTimeout(() => {
+                            tooltip.classList.remove('show');
+                        }, 1500);
+
+                    } catch (err) {
+                        console.error('Error al intentar copiar:', err);
+                        // Opcional: Podrías poner aquí un alert() o cambiar el texto a "Error" si falla.
+                    }
+                });
+            }
+        });
     </script>
 
 </body>
+
 </html>
